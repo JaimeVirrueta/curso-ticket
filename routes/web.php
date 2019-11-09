@@ -12,5 +12,5 @@
 */
 
 Route::get('/', function () {
-    return view('layouts.app');
+    return view('test');
 });

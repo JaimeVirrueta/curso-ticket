@@ -25,6 +25,7 @@ mix
     ], 'public/js/vendor.js')
 
     .copy('resources/vendor/fontawesome-free-5.11.2-web/webfonts', 'public/webfonts')
+    .copy('resources/img', 'public/img')
 
     // .sass('resources/sass/app.scss', 'public/css')
 
