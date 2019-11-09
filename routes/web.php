@@ -14,3 +14,17 @@
 Route::get('/', function () {
     return view('test');
 });
+
+// Gestión
+    // tickets
+    // asignación
+// Configuracion
+    // tipo
+    // prioridades
+// Reportes
+    // creados
+    // pendientes
+// Administración
+    // usuarios
+    // roles
+    // permisos (solo lectura)
