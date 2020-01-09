@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('test');
 });
 
+Route::get('administracion/usuarios', 'Admin\UsersController@index');
+
 // Gestión
     // tickets
     // asignación
