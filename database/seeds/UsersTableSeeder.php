@@ -42,7 +42,7 @@ class UsersTableSeeder extends Seeder
         $user->updated_by = $root->id;
         $user->save();
 
-        factory(User::class, 10)->create([
+        factory(User::class, 100)->create([
             'created_by' => $user->id,
             'updated_by' => $user->id,
         ]);
