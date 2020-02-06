@@ -27,7 +27,7 @@ class CreateTicketsTable extends Migration
 
             $table->foreign('type_id')->references('id')->on('types')->onDelete('set null');
             $table->foreign('priority_id')->references('id')->on('priorities');
-            $table->foreign('requester_user_id')->references('id')->on('tickets');
+            $table->foreign('requester_user_id')->references('id')->on('users');
         });
     }
 
