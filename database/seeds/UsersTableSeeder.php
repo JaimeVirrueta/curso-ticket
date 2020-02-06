@@ -12,6 +12,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        User::truncate();
         /*
         'first_name'
         'last_name'
@@ -40,5 +41,10 @@ class UsersTableSeeder extends Seeder
         $user->created_by = $root->id;
         $user->updated_by = $root->id;
         $user->save();
+
+        factory(User::class, 10)->create([
+            'created_by' => $user->id,
+            'updated_by' => $user->id,
+        ]);
     }
 }
