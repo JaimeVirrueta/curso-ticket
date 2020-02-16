@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('test');
 });
 
-Route::get('administracion/usuarios', 'Admin\UsersController@index');
+
 
 // Gestión
     // tickets
@@ -26,7 +26,10 @@ Route::get('administracion/usuarios', 'Admin\UsersController@index');
 // Reportes
     // creados
     // pendientes
-// Administración
-    // usuarios
+
+
+Route::prefix('administracion')->namespace('Admin')->name('admin.')->group(function(){
+    Route::resource('usuarios', 'UsersController')->names('user')->parameters(['usuarios' => 'user']);
+});
     // roles
     // permisos (solo lectura)

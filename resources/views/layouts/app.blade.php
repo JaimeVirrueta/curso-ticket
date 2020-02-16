@@ -48,11 +48,9 @@
 
     <!-- Main content -->
     <section class="content">
-        @yield('content')
-      <!-- Default box -->
-
-      <!-- /.card -->
-
+        <div class="container-fluid">
+            @yield('content')
+        </div>
     </section>
     <!-- /.content -->
   </div>
