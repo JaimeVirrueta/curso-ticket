@@ -29,7 +29,9 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.user.create', [
+            // 'row' => $user
+        ]);
     }
 
     /**
@@ -40,7 +42,20 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Forma 1
+        $row = new User();
+        $row->first_name    = $request->first_name;
+        $row->last_name     = $request->last_name;
+        $row->username      = $request->username;
+        $row->email         = $request->email;
+        $row->password      = bcrypt($request->username);
+
+
+        $row->created_by         = 1; // TODO Eliminar este paso porque obtendra del usuario en sesión
+        $row->updated_by         = 1; // TODO Eliminar este paso porque obtendra del usuario en sesión
+        $row->save();
+
+        return redirect()->route('admin.user.show', $row->id);
     }
 
     /**

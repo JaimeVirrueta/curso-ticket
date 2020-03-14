@@ -18,7 +18,7 @@
             <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
                 <i class="fas fa-times"></i>
             </button>
-            <a href="" title="Crear Usuario">
+            <a href="{{ route('admin.user.create') }}" title="Crear Usuario">
                 <i class="fa fa-plus"></i>
             </a>
         </div>
