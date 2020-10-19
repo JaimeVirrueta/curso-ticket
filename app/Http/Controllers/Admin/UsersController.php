@@ -42,13 +42,15 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        // Forma 1
+        $request->validate([
+            'first_name'    => 'required',
+            'email'         => 'required|email|unique:users,email',
+            'username'      => 'required|unique:users,username',
+        ]);
+
         $row = new User();
-        $row->first_name    = $request->first_name;
-        $row->last_name     = $request->last_name;
-        $row->username      = $request->username;
-        $row->email         = $request->email;
-        $row->password      = bcrypt($request->username);
+        $row->fill($request->all());
+        $row->password = bcrypt($request->username);
 
 
         $row->created_by         = 1; // TODO Eliminar este paso porque obtendra del usuario en sesión
@@ -91,6 +93,12 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $request->validate([
+            'first_name'    => 'required',
+            'email'         => 'required|email|unique:users,email,'.$user->id.',id',
+            'username'      => 'required|unique:users,username,'.$user->id.',id',
+        ]);
+
         $user->fill($request->all())->save();
 
         return redirect()->route('admin.user.show', $user->id);
