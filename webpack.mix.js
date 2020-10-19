@@ -14,6 +14,7 @@ const mix = require('laravel-mix');
 mix
     .styles([
         'resources/vendor/fontawesome-free-5.11.2-web/css/all.min.css',
+        'resources/vendor/icheck-bootstrap/icheck-bootstrap.min.css',
         'resources/css/adminlte.css',
     ], 'public/css/app.css')
 
