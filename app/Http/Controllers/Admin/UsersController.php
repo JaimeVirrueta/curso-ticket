@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Entities\Admin\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 
 class UsersController extends Controller
 {
@@ -40,14 +41,8 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $request->validate([
-            'first_name'    => 'required',
-            'email'         => 'required|email|unique:users,email',
-            'username'      => 'required|unique:users,username',
-        ]);
-
         $row = new User();
         $row->fill($request->all());
         $row->password = bcrypt($request->username);
@@ -91,14 +86,8 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $request->validate([
-            'first_name'    => 'required',
-            'email'         => 'required|email|unique:users,email,'.$user->id.',id',
-            'username'      => 'required|unique:users,username,'.$user->id.',id',
-        ]);
-
         $user->fill($request->all())->save();
 
         return redirect()->route('admin.user.show', $user->id);
