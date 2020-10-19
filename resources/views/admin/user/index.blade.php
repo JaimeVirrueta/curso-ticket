@@ -6,24 +6,20 @@
     <i class="fa fa-fw fa-users"></i>
 @endsection
 
-@section('content')
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Listado de Usuarios</h3>
+@section('breadcrumbs')
+    <li class="breadcrumb-item active"><a href="{{ route('admin.user.index') }}">Usuarios</a></li>
+@endsection
 
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                <i class="fas fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
-                <i class="fas fa-times"></i>
-            </button>
+@section('content')
+    @component('components.card')
+        @slot('title', 'Listado de Usuarios')
+
+        @slot('action')
             <a href="{{ route('admin.user.create') }}" title="Crear Usuario">
                 <i class="fa fa-plus"></i>
             </a>
-        </div>
-    </div>
-    <div class="card-body">
+        @endslot
+
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
@@ -50,11 +46,6 @@
         </div>
 
         {{ $users->render() }}
-    </div>
+    @endcomponent
 
-    {{-- <div class="card-footer">
-        Footer
-    </div> --}}
-
-</div>
 @endsection
