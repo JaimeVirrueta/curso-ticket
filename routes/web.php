@@ -15,6 +15,7 @@ Route::get('home', 'HomeController')->name('home');
     // pendientes
 
 Route::prefix('administracion')->namespace('Admin')->name('admin.')->group(function(){
+    Route::patch('usuarios/{user}/imagen', 'UsersController@image')->name('user.image');
     Route::resource('usuarios', 'UsersController')->names('user')->parameters(['usuarios' => 'user']);
     // roles
     // permisos (solo lectura)

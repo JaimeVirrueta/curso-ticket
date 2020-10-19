@@ -6,9 +6,12 @@ use App\Entities\Admin\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Traits\Controllers\ChangeImageTrait;
 
 class UsersController extends Controller
 {
+    use ChangeImageTrait;
+
     /**
      * Display a listing of the resource.
      *

@@ -19,7 +19,7 @@
         <div class="card-body box-profile">
           <div class="text-center">
             <img class="profile-user-img img-fluid img-circle"
-                 src="../../dist/img/user4-128x128.jpg"
+                 src="{{ asset('storage/image_profiles/'.$row->image_path) }}"
                  alt="User profile picture">
           </div>
 
@@ -310,6 +310,11 @@
                           <div class="col-12 col-md-6">
                               {!! Field::date('start_date', substr($row->start_date, 0, 10), ['placeholder' => 'Nombres']) !!}
                           </div>
+                          <div class="col-12 col-md-6 pt-2">
+                            <button type="button" class="btn btn-default mt-4 btn-outline-success" data-toggle="modal" data-target="#image-modal">
+                                <i class="fa fa-fa fw- fa-image"></i> Cambiar Imagen
+                            </button>
+                          </div>
                       </div>
                       <div class="row">
                           <div class="col-12">
@@ -324,5 +329,32 @@
       <!-- /.nav-tabs-custom -->
     </div>
     <!-- /.col -->
+
+    {{-- Modal de Imagen --}}
+    <div class="modal fade" id="image-modal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Agregar Imagen</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            {!! Form::open(['route' => ['admin.user.image', $row->id], 'method' => 'patch', 'files' => true]) !!}
+                <div class="modal-body">
+                    {!! Field::file('image') !!}
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default btn-outline-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Grabar</button>
+                </div>
+            {!! Form::close() !!}
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+
+
   </div>
 @endsection
