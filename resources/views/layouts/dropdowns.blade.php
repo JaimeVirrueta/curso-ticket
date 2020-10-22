@@ -10,8 +10,8 @@
             <a href="#" class="dropdown-item">
                 <!-- Message Start -->
                 <div class="media">
-                    <img src="{{ asset('img/user1-128x128.jpg') }}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                    <div class="media-body">
+                    <img src="{{ asset('storage/image_profiles/'.auth()->user()->image_path) }}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                <div class="media-body">
                         <h3 class="dropdown-item-title">
                             Brad Diesel
                             <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
@@ -89,7 +89,7 @@
     <!-- User Dropdown Menu -->
     <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-            <img src="{{ asset('img/user2-160x160.jpg') }}" class="img-circle img-sm" alt="User Image">
+            <img src="{{ asset('storage/image_profiles/'.auth()->user()->image_path) }}" class="img-circle img-sm" alt="User Image">
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             <a href="#" class="dropdown-item">

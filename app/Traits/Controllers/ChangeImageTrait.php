@@ -13,6 +13,9 @@ trait ChangeImageTrait
     {
         $image_name = $user->id.'.'.$request->image->getClientOriginalExtension();
 
+        $status = 'success';
+        $content = 'La imagen ha sido correctamente cargada';
+
         DB::beginTransaction();
         try {
             $user->image_path = $image_name;
@@ -22,8 +25,17 @@ trait ChangeImageTrait
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
+
+            $status = 'error';
+            $content = 'Se produjo un error al momento de la carga de la imagen';
         }
 
-        return redirect()->route('admin.user.show', $user->id);
+        return redirect()
+            ->route('admin.user.show', $user->id)
+            ->with('process_result', [
+                'status' => $status,
+                'content' => $content
+            ])
+        ;
     }
 }

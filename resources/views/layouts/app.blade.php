@@ -68,13 +68,6 @@
 
     <script src="{{ mix('js/vendor.js') }}"></script>
     <script src="{{ mix('js/app.js') }}"></script>
-<!-- jQuery -->
-{{-- <script src="../../plugins/jquery/jquery.min.js"></script> --}}
-<!-- Bootstrap 4 -->
-{{-- <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script> --}}
-<!-- AdminLTE App -->
-{{-- <script src="js/adminlte.min.js"></script> --}}
-<!-- AdminLTE for demo purposes -->
-{{-- <script src="js/demo.js"></script> --}}
+    @yield('scripts')
 </body>
 </html>
