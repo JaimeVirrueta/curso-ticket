@@ -12,6 +12,21 @@ class UsersController extends Controller
 {
     use ChangeImageTrait;
 
+    const PERMISSIONS = [
+        'create' => 'admin-user-create',
+        'show' => 'admin-user-show',
+        'edit' => 'admin-user-edit',
+        'edit-image' => 'admin-user-image',
+    ];
+
+    public function __construct()
+    {
+        $this->middleware('permission:'.self::PERMISSIONS['create'])->only(['create', 'store']);
+        $this->middleware('permission:'.self::PERMISSIONS['show'])->only(['index', 'show']);
+        $this->middleware('permission:'.self::PERMISSIONS['edit'])->only(['edit', 'update']);
+        $this->middleware('permission:'.self::PERMISSIONS['edit-image'])->only('image');
+    }
+
     /**
      * Display a listing of the resource.
      *
