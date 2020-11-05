@@ -16,7 +16,14 @@ Route::get('home', 'HomeController')->name('home');
 
 Route::prefix('administracion')->namespace('Admin')->name('admin.')->group(function(){
     Route::patch('usuarios/{user}/imagen', 'UsersController@image')->name('user.image');
-    Route::resource('usuarios', 'UsersController')->names('user')->parameters(['usuarios' => 'user'])->except(['destroy']);
+    Route::resource('usuarios', 'UsersController')
+        ->names('user')
+        ->parameters(['usuarios' => 'user'])
+        ->except(['destroy']);
     // roles
     // permisos (solo lectura)
+    Route::resource('permisos', 'PermissionController')
+        ->names('permission')
+        ->parameters(['permisos' => 'permission'])
+        ->only(['index', 'show']);
 });

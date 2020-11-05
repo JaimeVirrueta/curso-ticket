@@ -99,7 +99,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="../gallery.html" class="nav-link">
+            <a href="{{ route('admin.permission.index') }}" class="nav-link {{ isRouteActive('admin.permission') }}">
               <i class="nav-icon fa fa-key"></i>
               <p>
                 Permisos
