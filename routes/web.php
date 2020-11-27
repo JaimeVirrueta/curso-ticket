@@ -21,6 +21,9 @@ Route::prefix('administracion')->namespace('Admin')->name('admin.')->group(funct
         ->parameters(['usuarios' => 'user'])
         ->except(['destroy']);
     // roles
+    Route::resource('roles', 'RoleController')
+        ->names('role')
+        ->parameters(['permisos' => 'role']);
     // permisos (solo lectura)
     Route::resource('permisos', 'PermissionController')
         ->names('permission')

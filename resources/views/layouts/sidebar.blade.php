@@ -91,7 +91,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="../gallery.html" class="nav-link">
+            <a href="{{ route('admin.role.index') }}" class="nav-link {{ isRouteActive('admin.role') }}">
               <i class="nav-icon fa fa-unlock-alt"></i>
               <p>
                 Roles
