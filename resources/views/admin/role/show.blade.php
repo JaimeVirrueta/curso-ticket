@@ -38,6 +38,27 @@
     @endcomponent
 
     @component('components.card')
+        @slot('title', 'Permisos Asignados')
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($row->permissions as $permission)
+                    <tr>
+                        <td>{{ $permission->name }}</td>
+                        <td>{{ $permission->description }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endcomponent
+
+    @component('components.card')
         @slot('title', 'Usuarios Asignados')
     @endcomponent
 @endsection

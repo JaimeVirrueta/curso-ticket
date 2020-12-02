@@ -11,6 +11,23 @@
     </div>
 @endcomponent
 
+@component('components.card')
+    @slot('title', 'Asignación de permisos')
+
+    <div class="row">
+        @foreach ($permissions as $permission)
+            <div class="col-12">
+                {!! Field::checkbox(
+                    "permission[{$permission->id}]",
+                    $permission->id,
+                    $row->hasPermissionTo($permission->id),
+                    ['label' => $permission->description
+                ]) !!}
+            </div>
+        @endforeach
+    </div>
+@endcomponent
+
 <div class="row">
     <div class="col-12">
         <div class="float-right">

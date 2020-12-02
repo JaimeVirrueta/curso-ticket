@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
@@ -38,7 +39,8 @@ class RoleController extends Controller
     public function create()
     {
         return view('admin.role.create', [
-            'row' => new Role()
+            'row' => new Role(),
+            'permissions' => Permission::all(),
         ]);
     }
 
@@ -53,6 +55,8 @@ class RoleController extends Controller
         $row = new Role($request->all());
         $row->save();
 
+        $row->permissions()->sync($request->permission);
+
         return redirect()->route('admin.role.show', $row->id);
     }
 
@@ -65,7 +69,7 @@ class RoleController extends Controller
     public function show(Role $role)
     {
         return view('admin.role.show', [
-            'row' => $role
+            'row' => $role->load('permissions')
         ]);
     }
 
@@ -78,7 +82,8 @@ class RoleController extends Controller
     public function edit(Role $role)
     {
         return view('admin.role.edit', [
-            'row' => $role
+            'row' => $role,
+            'permissions' => Permission::all(),
         ]);
     }
 
@@ -92,6 +97,7 @@ class RoleController extends Controller
     public function update(Request $request, Role $role)
     {
         $role->update($request->all());
+        $role->permissions()->sync($request->permission);
 
         return redirect()->route('admin.role.show', $role->id);
     }
