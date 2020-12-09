@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Traits\Controllers\ChangeImageTrait;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
@@ -21,10 +23,10 @@ class UsersController extends Controller
 
     public function __construct()
     {
-        // $this->middleware('permission:'.self::PERMISSIONS['create'])->only(['create', 'store']);
-        // $this->middleware('permission:'.self::PERMISSIONS['show'])->only(['index', 'show']);
-        // $this->middleware('permission:'.self::PERMISSIONS['edit'])->only(['edit', 'update']);
-        // $this->middleware('permission:'.self::PERMISSIONS['edit-image'])->only('image');
+        $this->middleware('permission:'.self::PERMISSIONS['create'])->only(['create', 'store']);
+        $this->middleware('permission:'.self::PERMISSIONS['show'])->only(['index', 'show']);
+        $this->middleware('permission:'.self::PERMISSIONS['edit'])->only(['edit', 'update']);
+        $this->middleware('permission:'.self::PERMISSIONS['edit-image'])->only('image');
     }
 
     /**
@@ -82,19 +84,9 @@ class UsersController extends Controller
     public function show(User $user)
     {
         return view('admin.user.show', [
-            'row' => $user
+            'row' => $user,
+            'roles' => Role::all(),
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -111,14 +103,10 @@ class UsersController extends Controller
         return redirect()->route('admin.user.show', $user->id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function role(Request $request, User $user)
     {
-        //
+        $user->roles()->sync($request->roles);
+
+        return redirect()->route('admin.user.show', $user->id);
     }
 }

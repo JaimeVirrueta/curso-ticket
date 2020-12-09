@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -35,6 +36,22 @@ class PermissionsTableSeeder extends Seeder
          */
         Permission::updateOrCreate(['name' => PermissionController::PERMISSIONS['show']], [
             'description' => 'Listado y detalle de permiso'
+        ]);
+
+        /**
+         * Admin / Role
+         */
+        Permission::updateOrCreate(['name' => RoleController::PERMISSIONS['create']], [
+            'description' => 'Creación de roles'
+        ]);
+        Permission::updateOrCreate(['name' => RoleController::PERMISSIONS['show']], [
+            'description' => 'Listado y detalle de roles'
+        ]);
+        Permission::updateOrCreate(['name' => RoleController::PERMISSIONS['edit']], [
+            'description' => 'Edición de rol'
+        ]);
+        Permission::updateOrCreate(['name' => RoleController::PERMISSIONS['delete']], [
+            'description' => 'Eliminación de roles'
         ]);
     }
 }

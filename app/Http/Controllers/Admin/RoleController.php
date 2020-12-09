@@ -17,6 +17,14 @@ class RoleController extends Controller
         'delete' => 'admin-role-delete',
     ];
 
+    public function __construct()
+    {
+        $this->middleware('permission:'.self::PERMISSIONS['create'])->only(['create', 'store']);
+        $this->middleware('permission:'.self::PERMISSIONS['show'])->only(['index', 'show']);
+        $this->middleware('permission:'.self::PERMISSIONS['edit'])->only(['edit', 'update']);
+        $this->middleware('permission:'.self::PERMISSIONS['delete'])->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      *

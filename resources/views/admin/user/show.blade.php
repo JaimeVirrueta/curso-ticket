@@ -80,6 +80,7 @@
                 <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Actividad</a></li>
                 <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Historial</a></li>
                 <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Información</a></li>
+                <li class="nav-item"><a class="nav-link" href="#roles" data-toggle="tab">Roles</a></li>
             @endslot
 
             <div class="active tab-pane" id="activity">
@@ -315,6 +316,30 @@
                                 <i class="fa fa-fa fw- fa-image"></i> Cambiar Imagen
                             </button>
                           </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-12">
+                              <div class="float-right">
+                                  <button type="submit" class="ml-2 btn btn-success">Grabar</button>
+                              </div>
+                          </div>
+                      </div>
+                  {!! Form::close() !!}
+              </div>
+
+              <div class="tab-pane" id="roles">
+                  {!! Form::open(['route' => ['admin.user.role', $row->id], 'method' => 'patch']) !!}
+                      <div class="row">
+                        @foreach ($roles as $role)
+                            <div class="col-12">
+                                {!! Field::checkbox(
+                                    "roles[{$role->id}]",
+                                    $role->id,
+                                    $row->hasRole($role->id),
+                                    ['label' => $role->description
+                                ]) !!}
+                            </div>
+                        @endforeach
                       </div>
                       <div class="row">
                           <div class="col-12">
