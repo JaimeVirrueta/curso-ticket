@@ -30,6 +30,12 @@ class PermissionsTableSeeder extends Seeder
         Permission::updateOrCreate(['name' => UsersController::PERMISSIONS['edit-image']], [
             'description' => 'Edición de imagen del usuario'
         ]);
+        Permission::updateOrCreate(['name' => UsersController::PERMISSIONS['assign-roles']], [
+            'description' => 'Asignar/Retirar roles al usuario'
+        ]);
+        Permission::updateOrCreate(['name' => UsersController::PERMISSIONS['assign-permissions']], [
+            'description' => 'Asignar/Retirar permisos al usuario'
+        ]);
 
         /**
          * Admin / Permission

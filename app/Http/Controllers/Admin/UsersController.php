@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Entities\Admin\User;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use Spatie\Permission\Models\Permission;
 use App\Traits\Controllers\ChangeImageTrait;
-use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
@@ -19,6 +20,8 @@ class UsersController extends Controller
         'show' => 'admin-user-show',
         'edit' => 'admin-user-edit',
         'edit-image' => 'admin-user-image',
+        'assign-roles' => 'admin-user-role',
+        'assign-permissions' => 'admin-user-permission',
     ];
 
     public function __construct()
@@ -27,6 +30,8 @@ class UsersController extends Controller
         $this->middleware('permission:'.self::PERMISSIONS['show'])->only(['index', 'show']);
         $this->middleware('permission:'.self::PERMISSIONS['edit'])->only(['edit', 'update']);
         $this->middleware('permission:'.self::PERMISSIONS['edit-image'])->only('image');
+        $this->middleware('permission:'.self::PERMISSIONS['assign-roles'])->only(['role']);
+        $this->middleware('permission:'.self::PERMISSIONS['assign-permissions'])->only(['permission']);
     }
 
     /**
@@ -85,7 +90,8 @@ class UsersController extends Controller
     {
         return view('admin.user.show', [
             'row' => $user,
-            'roles' => Role::all(),
+            'roles' => Role::orderBy('name')->get(),
+            'permissions' => Permission::orderBy('name')->get(),
         ]);
     }
 
@@ -106,6 +112,13 @@ class UsersController extends Controller
     public function role(Request $request, User $user)
     {
         $user->roles()->sync($request->roles);
+
+        return redirect()->route('admin.user.show', $user->id);
+    }
+
+    public function permission(Request $request, User $user)
+    {
+        $user->syncPermissions($request->permissions);
 
         return redirect()->route('admin.user.show', $user->id);
     }

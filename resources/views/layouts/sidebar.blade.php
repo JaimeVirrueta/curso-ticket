@@ -81,32 +81,42 @@
             </a>
           </li>
 
-          <li class="nav-header">Administración</li>
-          <li class="nav-item">
-            <a href="{{ route('admin.user.index') }}" class="nav-link {{ isRouteActive('admin.user') }}">
-              <i class="nav-icon fa fa-users"></i>
-              <p>
-                Usuarios
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('admin.role.index') }}" class="nav-link {{ isRouteActive('admin.role') }}">
-              <i class="nav-icon fa fa-unlock-alt"></i>
-              <p>
-                Roles
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('admin.permission.index') }}" class="nav-link {{ isRouteActive('admin.permission') }}">
-              <i class="nav-icon fa fa-key"></i>
-              <p>
-                Permisos
-              </p>
-            </a>
-          </li>
-
+            @if (auth()->user()->can('admin-user-show') ||
+                auth()->user()->can('admin-role-show') ||
+                auth()->user()->can('admin-permission-show')
+            )
+            <li class="nav-header">Administración</li>
+                @can('admin-user-show')
+                    <li class="nav-item">
+                        <a href="{{ route('admin.user.index') }}" class="nav-link {{ isRouteActive('admin.user') }}">
+                        <i class="nav-icon fa fa-users"></i>
+                        <p>
+                            Usuarios
+                        </p>
+                        </a>
+                    </li>
+                @endcan
+                @can('admin-role-show')
+                    <li class="nav-item">
+                        <a href="{{ route('admin.role.index') }}" class="nav-link {{ isRouteActive('admin.role') }}">
+                        <i class="nav-icon fa fa-unlock-alt"></i>
+                        <p>
+                            Roles
+                        </p>
+                        </a>
+                    </li>
+                @endcan
+                @can('admin-permission-show')
+                    <li class="nav-item">
+                        <a href="{{ route('admin.permission.index') }}" class="nav-link {{ isRouteActive('admin.permission') }}">
+                        <i class="nav-icon fa fa-key"></i>
+                        <p>
+                            Permisos
+                        </p>
+                        </a>
+                    </li>
+                @endcan
+            @endif
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
