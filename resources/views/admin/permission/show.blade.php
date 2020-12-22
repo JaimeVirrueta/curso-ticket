@@ -49,7 +49,7 @@
     @endcomponent
 
     @component('components.card')
-        @slot('title', 'Permisos Asignados')
+        @slot('title', 'Roles Asignados')
 
         <table class="table table-hover">
             <thead>
@@ -59,21 +59,21 @@
                 </tr>
             </thead>
             <tbody>
-                {{-- @can('admin-permission-show')
-                    @foreach ($row->permissions as $permission)
+                @can('admin-role-show')
+                    @foreach ($row->roles as $role)
                         <tr>
-                            <td><a href="{{ route('admin.permission.show', $row->id) }}">{{ $permission->name }}</a></td>
-                            <td>{{ $permission->description }}</td>
+                            <td><a href="{{ route('admin.role.show', $row->id) }}">{{ $role->name }}</a></td>
+                            <td>{{ $role->description }}</td>
                         </tr>
                     @endforeach
                 @else
-                    @foreach ($row->permissions as $permission)
+                    @foreach ($row->roles as $role)
                         <tr>
-                            <td>{{ $permission->name }}</td>
-                            <td>{{ $permission->description }}</td>
+                            <td>{{ $role->name }}</td>
+                            <td>{{ $role->description }}</td>
                         </tr>
                     @endforeach
-                @endcan --}}
+                @endcan
 
                 {{-- @foreach ($row->permissions as $permission)
                     <tr>

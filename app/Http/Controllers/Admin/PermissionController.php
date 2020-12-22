@@ -30,7 +30,7 @@ class PermissionController extends Controller
     public function show(Permission $permission)
     {
         return view('admin.permission.show', [
-            'row' => $permission
+            'row' => $permission->load('users', 'roles')
         ]);
     }
 }
