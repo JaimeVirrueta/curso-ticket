@@ -43,7 +43,8 @@ return [
     'abbreviations' => [
         'ph' => 'placeholder',
         'max' => 'maxlength',
-        'tpl' => 'template'
+        'tpl' => 'template',
+        'rq' => 'required',
     ],
 
     /*

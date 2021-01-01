@@ -94,7 +94,7 @@
 
     </div>
 
-    @include('admin.user.info.modal_image')
+    @includeWhen(auth()->user()->can('admin-user-image'), 'admin.user.info.modal_image')
 </div>
 @endsection
 
