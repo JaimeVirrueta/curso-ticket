@@ -127,13 +127,3 @@
         </div>
     @endcomponent
 @endsection
-
-@if( session()->has('process_result') )
-    @section('scripts')
-        <script>
-            $(function() {
-                toastr.{{ session('process_result')['status'] }}('{{ session('process_result')['content'] }}')
-            });
-        </script>
-    @endsection
-@endif

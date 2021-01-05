@@ -69,5 +69,13 @@
     <script src="{{ mix('js/vendor.js') }}"></script>
     <script src="{{ mix('js/app.js') }}"></script>
     @yield('scripts')
+
+    @if( session()->has('process_result') )
+        <script>
+            $(function() {
+                toastr.{{ session('process_result')['status'] }}('{{ session('process_result')['content'] }}')
+            });
+        </script>
+    @endif
 </body>
 </html>

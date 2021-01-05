@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Entities\Admin\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Spatie\Permission\Models\Permission;
 use App\Traits\Controllers\ChangeImageTrait;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\Console\Input\Input;
 
 class UsersController extends Controller
 {
@@ -56,7 +59,7 @@ class UsersController extends Controller
     public function create()
     {
         return view('admin.user.create', [
-            // 'row' => $user
+            'row' => new User()
         ]);
     }
 
@@ -68,16 +71,41 @@ class UsersController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $row = new User();
-        $row->fill($request->all());
-        $row->password = bcrypt($request->username);
+        $status = 'success';
+        $content = 'El usuario ha sido creado correctamente';
 
+        DB::beginTransaction();
+        try {
+            $row = new User();
+            $row->fill($request->all());
+            $row->password = bcrypt($request->username);
 
-        $row->created_by         = 1; // TODO Eliminar este paso porque obtendra del usuario en sesión
-        $row->updated_by         = 1; // TODO Eliminar este paso porque obtendra del usuario en sesión
-        $row->save();
+            $row->created_by         = 1; // TODO Eliminar este paso porque obtendra del usuario en sesión
+            $row->updated_by         = 1; // TODO Eliminar este paso porque obtendra del usuario en sesión
+            $row->save();
 
-        return redirect()->route('admin.user.show', $row->id);
+            DB::commit();
+
+            return redirect()
+                ->route('admin.user.show', $row->id)
+                ->with('process_result', [
+                    'status' => $status,
+                    'content' => $content
+                ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            $status = 'error';
+            $content = 'Se produjo un error al momento de crear el usuario';
+
+            return redirect()
+                ->route('admin.user.create')
+                ->withInput($request->all())
+                ->with('process_result', [
+                    'status' => $status,
+                    'content' => $content
+                ]);
+        }
     }
 
     /**
@@ -104,22 +132,79 @@ class UsersController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->fill($request->all())->save();
+        $status = 'success';
+        $content = 'El usuario ha sido actualizado correctamente';
 
-        return redirect()->route('admin.user.show', $user->id);
+        DB::beginTransaction();
+        try {
+            $user->fill($request->all())->save();
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            $status = 'error';
+            $content = 'Se produjo un error al momento de la actualización del usuario';
+        }
+
+        return redirect()
+            ->route('admin.user.show', $user->id)
+            ->with('process_result', [
+                'status' => $status,
+                'content' => $content
+            ])
+        ;
     }
 
     public function role(Request $request, User $user)
     {
-        $user->roles()->sync($request->roles);
+        $status = 'success';
+        $content = 'Se asignó correctamente los roles al usuario';
 
-        return redirect()->route('admin.user.show', $user->id);
+        DB::beginTransaction();
+        try {
+            $user->roles()->sync($request->roles);
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            $status = 'error';
+            $content = 'Se produjo un error al momento de la asignación de los roles al usuario';
+        }
+
+        return redirect()
+            ->route('admin.user.show', $user->id)
+            ->with('process_result', [
+                'status' => $status,
+                'content' => $content
+            ])
+        ;
     }
 
     public function permission(Request $request, User $user)
     {
-        $user->syncPermissions($request->permissions);
+        $status = 'success';
+        $content = 'Se asignó correctamente los permisos al usuario';
 
-        return redirect()->route('admin.user.show', $user->id);
+        DB::beginTransaction();
+        try {
+           $user->syncPermissions($request->permissions);
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            $status = 'error';
+            $content = 'Se produjo un error al momento de la asignación de los permisos al usuario';
+        }
+
+        return redirect()
+            ->route('admin.user.show', $user->id)
+            ->with('process_result', [
+                'status' => $status,
+                'content' => $content
+            ])
+        ;
     }
 }

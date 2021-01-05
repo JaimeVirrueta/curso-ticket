@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -60,12 +61,38 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $row = new Role($request->all());
-        $row->save();
+        $status = 'success';
+        $content = 'El rol ha sido creado correctamente';
 
-        $row->permissions()->sync($request->permission);
+        DB::beginTransaction();
+        try {
+            $row = new Role($request->all());
+            $row->save();
 
-        return redirect()->route('admin.role.show', $row->id);
+            $row->permissions()->sync($request->permission);
+
+            DB::commit();
+
+            return redirect()
+                ->route('admin.role.show', $row->id)
+                ->with('process_result', [
+                    'status' => $status,
+                    'content' => $content
+                ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            $status = 'error';
+            $content = 'Se produjo un error al momento de crear el rol';
+
+            return redirect()
+                ->route('admin.role.create')
+                ->withInput($request->all())
+                ->with('process_result', [
+                    'status' => $status,
+                    'content' => $content
+                ]);
+        }
     }
 
     /**
@@ -104,10 +131,29 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        $role->update($request->all());
-        $role->permissions()->sync($request->permission);
+        $status = 'success';
+        $content = 'El rol ha sido actualizado correctamente';
 
-        return redirect()->route('admin.role.show', $role->id);
+        DB::beginTransaction();
+        try {
+            $role->update($request->all());
+            $role->permissions()->sync($request->permission);
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            $status = 'error';
+            $content = 'Se produjo un error al momento de la actualización del rol';
+        }
+
+        return redirect()
+            ->route('admin.role.show', $role->id)
+            ->with('process_result', [
+                'status' => $status,
+                'content' => $content
+            ])
+        ;
     }
 
     /**
@@ -120,6 +166,11 @@ class RoleController extends Controller
     {
         $role->delete();
 
-        return redirect()->route('admin.role.index');
+        return redirect()
+            ->route('admin.role.index')
+            ->with('process_result', [
+                'status' => 'success',
+                'content' => 'El rol fue eliminado satisfactoriamente'
+            ]);
     }
 }
